@@ -1,7 +1,8 @@
 import Pagination from '@/components/pagination';
 import Link from 'next/link';
 import AboutSection from '@/components/aboutSection';
-import getHeroes from './api/heroes';
+import { IHeroe } from '@/types';
+import { getHeroes } from './api/heroes';
 
 interface SearchParamsProps {
   searchParams?: {
@@ -27,7 +28,7 @@ export default async function Home({ searchParams }: Readonly<SearchParamsProps>
       <AboutSection />
 
       {resultHeader}
-      {data.results.map((el) => {
+      {data.results.map((el: IHeroe) => {
         return (
           <Link
             href={`hero/${el.id}`}
