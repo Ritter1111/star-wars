@@ -1,4 +1,6 @@
 import Pagination from '@/components/pagination';
+import Link from 'next/link';
+import AboutSection from '@/components/aboutSection';
 import getHeroes from './api/heroes';
 
 interface SearchParamsProps {
@@ -10,7 +12,6 @@ interface SearchParamsProps {
 
 export default async function Home({ searchParams }: Readonly<SearchParamsProps>) {
   const currentPage = Number(searchParams?.page) || 1;
-
   const data = await getHeroes(currentPage);
 
   let resultHeader;
@@ -23,12 +24,18 @@ export default async function Home({ searchParams }: Readonly<SearchParamsProps>
 
   return (
     <main>
+      <AboutSection />
+
       {resultHeader}
       {data.results.map((el) => {
         return (
-          <div key={el.id} className=" text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer">
+          <Link
+            href={`hero/${el.id}`}
+            key={el.id}
+            className=" flex text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer"
+          >
             {el.name}
-          </div>
+          </Link>
         );
       })}
       <Pagination data={data} />

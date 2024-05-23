@@ -6,6 +6,7 @@
   --generalBackground: #0e0c17;
   --accent: #ed1d24;
   --sectionBackground: #1a1925;
+  --disabled: #757575;
 }
 
 body {
@@ -19,4 +20,11 @@ h2 {
   font-size: larger;
   text-align: center;
   font-weight: 800;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: var(--disabled);
+  color: #505050;
 }
