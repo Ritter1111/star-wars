@@ -1,18 +1,37 @@
-'use client';
+import Pagination from '@/components/pagination';
+import getHeroes from './api/heroes';
 
-import ReactFlow from 'reactflow';
-import 'reactflow/dist/style.css';
+interface SearchParamsProps {
+  searchParams?: {
+    page?: string;
+    query?: string;
+  };
+}
 
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+export default async function Home({ searchParams }: Readonly<SearchParamsProps>) {
+  const currentPage = Number(searchParams?.page) || 1;
 
-export default function Home() {
+  const data = await getHeroes(currentPage);
+
+  let resultHeader;
+
+  if (data.count === 0) {
+    resultHeader = <h2>Nothing found</h2>;
+  } else {
+    resultHeader = <h2>Results ({data.count})</h2>;
+  }
+
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow nodes={initialNodes} edges={initialEdges} />
-    </div>
+    <main>
+      {resultHeader}
+      {data.results.map((el) => {
+        return (
+          <div key={el.id} className=" text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer">
+            {el.name}
+          </div>
+        );
+      })}
+      <Pagination data={data} />
+    </main>
   );
 }
