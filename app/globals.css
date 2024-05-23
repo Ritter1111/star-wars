@@ -5,7 +5,9 @@
 :root {
   --generalBackground: #0e0c17;
   --accent: #ed1d24;
+  --yellow: #ddff00;
   --sectionBackground: #1a1925;
+  --hoverBackground: #14131f;
   --disabled: #757575;
 }
 

@@ -32,7 +32,7 @@ export default async function Home({ searchParams }: Readonly<SearchParamsProps>
           <Link
             href={`hero/${el.id}`}
             key={el.id}
-            className=" flex text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer"
+            className="transition flex text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer hover:bg-hoverBackground"
           >
             {el.name}
           </Link>
