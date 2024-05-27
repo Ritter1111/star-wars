@@ -25,6 +25,13 @@ export interface IHeroe {
   url: string;
 }
 
+export interface IFilmData {
+  count: number;
+  next: string;
+  previous: any;
+  results: IFilm[];
+}
+
 export interface IFilm {
   id: number;
   title: string;
@@ -38,6 +45,35 @@ export interface IFilm {
   starships: number[];
   vehicles: number[];
   species: number[];
+  created: string;
+  edited: string;
+  url: string;
+}
+
+export interface IStarshipData {
+  count: number;
+  next: string;
+  previous: any;
+  results: IStarShip[];
+}
+
+export interface IStarShip {
+  id: number;
+  name: string;
+  model: string;
+  manufacturer: string;
+  cost_in_credits: string;
+  length: string;
+  max_atmosphering_speed: string;
+  crew: string;
+  passengers: string;
+  cargo_capacity: string;
+  consumables: string;
+  hyperdrive_rating: string;
+  MGLT: string;
+  starship_class: string;
+  pilots: any[];
+  films: number[];
   created: string;
   edited: string;
   url: string;

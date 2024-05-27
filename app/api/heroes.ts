@@ -1,5 +1,5 @@
 import { API_URL } from '@/constants';
-import { IHeroe, IHeroesData } from '@/types';
+import { IFilmData, IHeroe, IHeroesData, IStarshipData } from '@/types';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -16,15 +16,35 @@ export async function getHeroes(page: number = 1): Promise<IHeroesData> {
   }
 }
 
-export async function getHero(id: number) {
+export async function getHero(heroId: number) {
   try {
-    const heroData = await instance.get<IHeroe>(`/people/${id}`);
+    const heroData = await instance.get<IHeroe>(`/people/${heroId}`);
     const hero = heroData.data;
 
-    const heroFilms = await Promise.all(
-      hero.films.flatMap((filmId: number) => instance.get(`/films/${filmId}`).then((res) => res.data)),
-    );
-    return { ...hero, heroFilms };
+    return hero;
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    throw new Error('Could not get data');
+  }
+}
+
+export async function getHeroFilms(heroId: number): Promise<IFilmData> {
+  try {
+    const heroFilms = await instance.get<IFilmData>(`/films/?characters__contains=${heroId}`);
+    const films = heroFilms.data;
+
+    return films;
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    throw new Error('Could not get data');
+  }
+}
+
+export async function getHeroStarships(heroId: number): Promise<IStarshipData> {
+  try {
+    const starships = await instance.get<IStarshipData>(`/starships/?pilots__contains=${heroId}`);
+
+    return starships.data;
   } catch (error) {
     console.error('Error retrieving data:', error);
     throw new Error('Could not get data');
