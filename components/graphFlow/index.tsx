@@ -3,7 +3,7 @@
 import { IFilm, IStarShip } from '@/types';
 import { createFilmEdges, createStarshipEdges } from '@/utils/edges';
 import { createFilmNodes, createStarshipNodes } from '@/utils/nodes';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -24,15 +24,17 @@ interface GraphFlowProps {
 }
 
 export default function GraphFlow({ name, heroFilms, heroStarships, heroId }: GraphFlowProps) {
-  const filmNodes = createFilmNodes(heroFilms, heroId, name);
-  const starshipNodes = createStarshipNodes(heroStarships);
+  const initialNodes = useMemo(() => {
+    const filmNodes = createFilmNodes(heroFilms, heroId, name);
+    const starshipNodes = createStarshipNodes(heroStarships);
+    return [...filmNodes, ...starshipNodes];
+  }, [heroFilms, heroStarships, heroId, name]);
 
-  const initialNodes = [...filmNodes, ...starshipNodes];
-
-  const filmEdges = createFilmEdges(heroFilms, heroId);
-  const starshipEdges = createStarshipEdges(heroFilms, heroStarships);
-
-  const initialEdges = [...filmEdges, ...starshipEdges];
+  const initialEdges = useMemo(() => {
+    const filmEdges = createFilmEdges(heroFilms, heroId);
+    const starshipEdges = createStarshipEdges(heroFilms, heroStarships);
+    return [...filmEdges, ...starshipEdges];
+  }, [heroFilms, heroStarships, heroId]);
 
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -47,6 +49,7 @@ export default function GraphFlow({ name, heroFilms, heroStarships, heroId }: Gr
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        fitView
       >
         <Controls />
         <MiniMap />
