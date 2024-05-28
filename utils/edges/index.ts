@@ -1,4 +1,5 @@
 import { IFilm, IStarShip } from '@/types';
+import { Edge } from 'reactflow';
 
 export function createFilmEdges(heroFilms: IFilm[], heroId: number) {
   return heroFilms.map((film) => ({
@@ -9,18 +10,17 @@ export function createFilmEdges(heroFilms: IFilm[], heroId: number) {
   }));
 }
 
-export function createStarshipEdges(heroFilms: IFilm[], heroStarships: IStarShip[]) {
-  return heroStarships
-    .map((starship) => {
-      const film = heroFilms.find((currentFilm) => currentFilm.starships.includes(starship.id));
-      return film
-        ? {
-            id: `starship-edge-${starship.id}`,
-            source: `film-${film.id}`,
-            target: `starship-${starship.id}`,
-            animated: true,
-          }
-        : null;
-    })
-    .filter(Boolean);
+export function createStarshipEdges(heroFilms: IFilm[], heroStarships: IStarShip[]): Edge[] {
+  return heroStarships.flatMap((starship) => {
+    const film = heroFilms.find((currentFilm) => currentFilm.starships.includes(starship.id));
+    if (film) {
+      return {
+        id: `starship-edge-${starship.id}`,
+        source: `film-${film.id}`,
+        target: `starship-${starship.id}`,
+        animated: true,
+      };
+    }
+    return [];
+  });
 }
