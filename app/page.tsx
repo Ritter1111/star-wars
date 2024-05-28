@@ -11,8 +11,8 @@ interface SearchParamsProps {
   };
 }
 
-export default async function Home({ searchParams }: Readonly<SearchParamsProps>) {
-  const currentPage = Number(searchParams?.page) || 1;
+export default async function Home({ searchParams = {} }: Readonly<SearchParamsProps>) {
+  const currentPage = Number(searchParams.page) || 1;
   const data = await getHeroes(currentPage);
 
   let resultHeader;
@@ -28,17 +28,15 @@ export default async function Home({ searchParams }: Readonly<SearchParamsProps>
       <AboutSection />
 
       {resultHeader}
-      {data.results.map((el: IHeroe) => {
-        return (
-          <Link
-            href={`hero/${el.id}`}
-            key={el.id}
-            className="transition flex text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer hover:bg-hoverBackground"
-          >
-            {el.name}
-          </Link>
-        );
-      })}
+      {data.results.map((el: IHeroe) => (
+        <Link
+          href={`hero/${el.id}`}
+          key={el.id}
+          className="transition flex text-center bg-sectionBackground rounded-lg p-4 my-2 cursor-pointer hover:bg-hoverBackground"
+        >
+          {el.name}
+        </Link>
+      ))}
       <Pagination data={data} />
     </main>
   );
