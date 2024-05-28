@@ -1,3 +1,5 @@
+import { IHeroesData } from '@/types';
+
 export const responseHeroData = {
   id: 1,
   name: 'Test Hero',
@@ -97,7 +99,7 @@ export const mockStarShip = [
 //   url: 'https://sw-api.starnavi.io/films/1/',
 // };
 
-export const mockHeroes = {
+export const mockHeroes: IHeroesData = {
   count: 2,
   next: '',
   previous: null,

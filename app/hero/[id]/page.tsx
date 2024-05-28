@@ -7,9 +7,5 @@ export default async function App({ params }: { params: { id: string } }) {
   const heroFilms = await getHeroFilms(heroId);
   const heroStarships = await getHeroStarships(heroId);
 
-  return (
-    <div>
-      <GraphFlow name={name} heroFilms={heroFilms.results} heroStarships={heroStarships.results} heroId={id} />
-    </div>
-  );
+  return <GraphFlow name={name} heroFilms={heroFilms.results} heroStarships={heroStarships.results} heroId={id} />;
 }
